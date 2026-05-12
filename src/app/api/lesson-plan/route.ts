@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `API key for ${provider} is missing.` }, { status: 401 });
     }
 
-    const relevantDocs = await searchVectorStore(topic, 8, embedKey, embedProvider);
+    const relevantDocs = await searchVectorStore(topic, 8, embedKey ?? undefined, embedProvider);
     const context = relevantDocs.map(doc => doc.pageContent).join("\n\n---\n\n");
 
     const model = getLLM({

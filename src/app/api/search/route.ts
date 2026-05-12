@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     // 1. Retrieve relevant chunks (Always using Gemini embeddings for now as vector store is initialized with it)
     // Note: In a production app, you might want to use embeddings from the chosen provider too.
-    const relevantDocs = await searchVectorStore(query, 5, embedKey, embedProvider);
+    const relevantDocs = await searchVectorStore(query, 5, embedKey ?? undefined, embedProvider);
     
     if (!relevantDocs || relevantDocs.length === 0) {
       return NextResponse.json({ 
