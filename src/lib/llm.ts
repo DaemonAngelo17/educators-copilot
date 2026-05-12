@@ -69,15 +69,38 @@ export function getLLM(options: LLMOptions) {
           }
 
           const data = await response.json();
-          return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response from AI.";
+          let text = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response from AI.";
+          
+          // Auto-extract JSON if it's wrapped in markdown code blocks
+          if (text.includes("```json")) {
+            const match = text.match(/```json\s*([\s\S]*?)\s*```/);
+            if (match) text = match[1];
+          } else if (text.includes("```")) {
+            const match = text.match(/```\s*([\s\S]*?)\s*```/);
+            if (match) text = match[1];
+          }
+          
+          return text.trim();
         },
         pipe: (next: any) => {
-          return {
+          const runnable = {
             invoke: async (input: any) => {
               const res = await wrapper.invoke(input);
               return next.invoke(res);
+            },
+            pipe: (after: any) => {
+              return runnable.pipe(after); // Recursive chaining
             }
           };
+          // Fix the recursion to actually chain 'after' to 'runnable'
+          const createChain = (first: any, second: any): any => ({
+            invoke: async (input: any) => {
+              const res = await first.invoke(input);
+              return second.invoke(res);
+            },
+            pipe: (third: any) => createChain(createChain(first, second), third)
+          });
+          return createChain(wrapper, next);
         }
       };
       return wrapper as any;
