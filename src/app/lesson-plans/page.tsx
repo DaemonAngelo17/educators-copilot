@@ -92,7 +92,7 @@ export default function LessonPlansPage() {
               <GraduationCap className="w-4 h-4 text-slate-400" />
               Grade Level
             </label>
-            <Select onValueChange={setGradeLevel} value={gradeLevel}>
+            <Select onValueChange={(v) => v && setGradeLevel(v)} value={gradeLevel}>
               <SelectTrigger className="bg-slate-50 border-slate-200">
                 <SelectValue placeholder="Select Grade" />
               </SelectTrigger>

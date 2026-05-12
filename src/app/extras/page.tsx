@@ -111,7 +111,7 @@ export default function ExtrasPage() {
                   <>
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Test Type</label>
-                      <Select onValueChange={setSubType} value={subType}>
+                      <Select onValueChange={(v) => v && setSubType(v)} value={subType}>
                         <SelectTrigger className="bg-slate-50 border-slate-200">
                           <SelectValue />
                         </SelectTrigger>
@@ -124,7 +124,7 @@ export default function ExtrasPage() {
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Questions</label>
-                      <Select onValueChange={setCount} value={count}>
+                      <Select onValueChange={(v) => v && setCount(v)} value={count}>
                         <SelectTrigger className="bg-slate-50 border-slate-200">
                           <SelectValue />
                         </SelectTrigger>
@@ -155,7 +155,7 @@ export default function ExtrasPage() {
                 {activeTool === "activity" && (
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-700">Activity Type</label>
-                    <Select onValueChange={setSubType} value={subType}>
+                    <Select onValueChange={(v) => v && setSubType(v)} value={subType}>
                       <SelectTrigger className="bg-slate-50 border-slate-200">
                         <SelectValue />
                       </SelectTrigger>

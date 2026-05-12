@@ -70,8 +70,8 @@ export default function NotebookPage() {
           {loading ? (
             <div className="mt-20">
               <AIProgress 
-                message="Analyzing document structure and extracting key concepts..." 
-                progress={undefined} 
+                isLoading={true}
+                label="Analyzing document structure and extracting key concepts..." 
               />
             </div>
           ) : error ? (

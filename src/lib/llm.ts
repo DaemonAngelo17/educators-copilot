@@ -82,23 +82,13 @@ export function getLLM(options: LLMOptions) {
           
           return text.trim();
         },
-        pipe: (next: any) => {
-          const runnable = {
-            invoke: async (input: any) => {
-              const res = await wrapper.invoke(input);
-              return next.invoke(res);
-            },
-            pipe: (after: any) => {
-              return runnable.pipe(after); // Recursive chaining
-            }
-          };
-          // Fix the recursion to actually chain 'after' to 'runnable'
+        pipe: (next: any): any => {
           const createChain = (first: any, second: any): any => ({
-            invoke: async (input: any) => {
+            invoke: async (input: any): Promise<any> => {
               const res = await first.invoke(input);
               return second.invoke(res);
             },
-            pipe: (third: any) => createChain(createChain(first, second), third)
+            pipe: (third: any): any => createChain(createChain(first, second), third)
           });
           return createChain(wrapper, next);
         }
