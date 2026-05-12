@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { processAndStoreDocument } from "@/lib/vectorstore";
-import pdfParse from "pdf-parse/lib/pdf-parse.js";
+import pdfParse from "pdf-parse";
 import { getApiKeyFromHeaders, getProviderFromHeaders } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
